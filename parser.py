@@ -5,9 +5,6 @@ from markdown_it import MarkdownIt
 from bs4 import BeautifulSoup as bs
 
 PATH = pathlib.Path(__file__).parent.resolve()                                                          
-PATTERN_IMG   = r'<img> src="(.*?)"</img>'
-PATTERN_IMG_C = r'IMG "(.*?)"'
-PATTERN_CONTENT = r'<!-- Begin post -->"(.*?)"<!-- End post -->'
 
 
 def save_image_to_assets_folder(filepath):
@@ -45,21 +42,23 @@ def construct_html_content(template, content, title):
 
     dst_dir = PATH / "Posts"
     dst_dir.mkdir(parents=True, exist_ok=True)
-    path = pathlib.Path(dst_dir / f'{title}.html')
+    path = pathlib.Path(dst_dir / f'{str(title).strip().replace(" ", "_")}.html')
 
     md = MarkdownIt("gfm-like2", {"maxNesting": 99})
 
-    images_in_content = re.findall(PATTERN_IMG, content)
+    images_in_content = re.findall(r'IMG\s+(.*?)\s+', content)
 
-    img_n = 0
+    print("Images found in content: ", images_in_content)
+
+    img_n = 1
     if images_in_content:
         for img in images_in_content:
             content = content.replace(img, f'![image_not_loaded](/Images/A{img_n}.png)')
             img_n += 1
-    print("Finshed images ... ")
 
     # Define new <article> content 
     new_content = md.render(content)
+    new_soup = bs(new_content, 'html5lib')
 
     # Load original file 
     with open(template, 'r', -1, 'utf-8') as op:
@@ -67,15 +66,17 @@ def construct_html_content(template, content, title):
 
     # Parse old content with bs4 
     soup = bs(template_file, 'html5lib')
-    old_content = soup.find('article')
+    base_div = soup.find('div', id='post-content')
 
     # Create new content object using bs4 
-    new_content_object = soup.new_tag('article')
-    new_content_object.append(new_content)
+    new_content_object = soup.new_tag('div', class_='col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1')
+    for nc in new_soup.find_all(recursive=False):
+        new_content_object.append(nc)
 
     # Replace with regexe old content with new content.
     try:
-        old_content.replace_with(new_content)
+        base_div.clear()
+        base_div.append(new_content_object)
         overwrite_index_html(soup.prettify(), path)
         print("Finshed replacing ... ")
 
