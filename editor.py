@@ -1,19 +1,30 @@
 import streamlit as st
+from template import Template
+from pathlib import Path
+import parser
+
+template = Template(Path('./clean-blog/index.html'))
+template.parse_template()
 
 st.title("Silver-Potato page editor")
 
 with st.form("page_form"):
-    # First image input
-    image1 = st.file_uploader("Upload first image", type=["jpg", "jpeg", "png"])
 
-    # First text box with 300 character limit
-    p1 = st.text_area("Description 1 (max 300 characters)", max_chars=300, help="Enter your description here")
+    # Define image inputs
+    images = []
+    id_n = 0
+    for i in template.images:
+        id_ = st.file_uploader(f"Upload iamge {id_n+1}", type=["jpg", "jpeg", "png"])
+        images.append(id)
+        id_n += 1
 
-    # Second image input
-    image2 = st.file_uploader("Upload second image", type=["jpg", "jpeg", "png"])
-
-    # Second text box with 1000 character limit
-    p2 = st.text_area("Description 2 (max 1000 characters)", max_chars=1000, help="Enter your description here")
+    # Define paragraph inputs
+    paragraphs = []
+    id_n = 0
+    for i in template.images:
+        id_ = st.text_area(f"Paragraph section {id_n+1}", max_chars=900, help="Enter your description here")
+        paragraphs.append(id)
+        id_n += 1
 
     # Every form must have a submit button.
     # Every form must have a submit button.
