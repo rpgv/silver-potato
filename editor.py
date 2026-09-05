@@ -35,20 +35,15 @@ with st.form("page_form"):
                 # Get the file extension (e.g., 'png' from 'image.png')                                                                                                                                                                  
                 file_extension = os.path.splitext(img.name)[1]
                 file_name      = Path(os.path.splitext(img.name)[0]).name
-                                                                                                                                                           
-                                                                                                                                                                                                                                        
+                                                                                                                                                                                                      
                 # Create a unique filename based on the original name                                                                                                                                                                    
-                save_path = os.path.join(SAVE_DIRECTORY, f"{file_name}{file_extension}")                                                                                                                                                  
-                                                                                                                                                                                                                                        
+                save_path = os.path.join(SAVE_DIRECTORY, f"{file_name}{file_extension}")                                                                                                                                                                                                                                                                                                                                                                       
                 # Read the file contents into bytes                                                                                                                                                                                      
                 file_bytes = img.read()                                                                                                                                                                                    
                                                                                                                                                                                                                                         
                 # Write the bytes to the specified local path                                                                                                                                                                            
                 with open(save_path, "wb") as f:                                                                                                                                                                                         
-                    f.write(file_bytes)                                                                                                                                                                                                  
-                                                                                                                                                                                                                                        
-                st.balloons()                                                                                                                                                                                                            
-                st.info(f"✅ Image successfully saved to: `{save_path}`")                                                                                                                                                                
+                    f.write(file_bytes)                                                                                                                                                               
                                                                                                                                                                                                                                         
             except Exception as e:                                                                                                                                                                                                       
                 st.error(f"An error occurred while saving the file: {e}")  
@@ -56,6 +51,7 @@ with st.form("page_form"):
             #save_image_to_assets_folder(img.name.split("/")[-1])
 
         construct_html_content('post.html', post_content, title)
+        st.info(f"✅ Story submitted successully `{save_path}`") 
 
 
 
