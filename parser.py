@@ -40,9 +40,9 @@ def construct_html_content(template, content, title):
     """
     print("Entering construction ... ")
 
-    dst_dir = PATH / "Posts"
+    dst_dir = PATH
     dst_dir.mkdir(parents=True, exist_ok=True)
-    path = pathlib.Path(dst_dir / f'{str(title).strip().replace(" ", "_")}.html')
+    path = pathlib.Path(dst_dir / f'post_{str(title).strip().replace(" ", "_")}.html')
 
     md = MarkdownIt("gfm-like2", {"maxNesting": 99})
 
