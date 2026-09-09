@@ -29,14 +29,21 @@ class Parser:
                 img_n += 1
         return content
 
-    def make_new_soup(self, content):
-        md = MarkdownIt("gfm-like2", {"maxNesting": 99})
-        content = self.convert_images(content)
-        n_html = md.render(content)
-        self.n_soup = bs(n_html, 'html5lib')
+    def make_new_soup(self, content, parse = False):
+        if parse:
+            md = MarkdownIt("gfm-like2", {"maxNesting": 99})
+            content = self.convert_images(content)
+        content = md.render(content)
+        self.n_soup = bs(content, 'html5lib')
 
-    def  overwrite_index_html(self):
-        with open(self.path, 'w', -1, 'utf-8') as ov:
+    def  overwrite_html_file(self, new_file = False):
+        if new_file:
+            # Create a new post_file if new file is true
+            path = self.path 
+        else: 
+            # Overwrite existing file if new_file is False
+            path = self.template
+        with open(path, 'w', -1, 'utf-8') as ov:
             ov.write(self.soup.prettify())
 
     def create_new_child(self):
@@ -47,9 +54,8 @@ class Parser:
         for nc in new_soup.find_all(recursive=False):
             new_child_tag.append(nc)
         return new_child_tag
-        
 
-    def make_family(self):
+    def make_family(self, new_file = False):
         # Find parent
         name = self.parent[0] 
         id_  = self.parent[1]
@@ -60,10 +66,8 @@ class Parser:
             # Clear parent object
             parent.clear()
             # Create child based on input
-            child_name = self.child[0]
-            child_id_  = self.child[1]
             new_child = self.create_new_child()
             parent.append(new_child)
             # Overwrite 
-            overwrite_index_html(self.soup.prettify(), self.path)
+            self.overwrite_html_file(self.soup.prettify(), new_file)
             return 'Object overwritten successfully'
