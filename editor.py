@@ -76,6 +76,7 @@ with st.form("page_form"):
         # Replace publication information  
         new_post = Parser('post.html', title, ['div', 'parent-post-preview'], ['div', 'child'])
         new_post.load_original()
+        new_post_path = new_post.path # Store it to pass it href
         content = new_post.convert_images(post_content)
         new_post.make_new_soup(content, True)# True -> we want to parse from MD to HTML 
         new_post.make_family(True) # True -> we want to create a new file 
@@ -107,22 +108,25 @@ with st.form("page_form"):
         post_preview = reference_index.find('div', id='post-preview')
         new_post_preview = index.soup.new_tag('div', id='post-preview')
         post_preview.append(new_post_preview)
+        post_preivew_div = post_preview.find('div', id='post-preview')
+        new_post_link = post_preview.new_tag('a', href=new_post_path)
+        post_preivew_div.append(new_post_link)
         # Here we are creating a new div
         # H2
-        h2 = new_post_preview.new_tag('h2', class_='post-title')
+        h2 = new_post_link.new_tag('h2', class_='post-title')
         h2.insert(0, NavigableString(title))
-        new_post_preview.append(h2)
+        new_post_link.append(h2)
         # H3
-        h3 = new_post_preview.new_tag('h3', class_='post-subtitle')
-        h3.insert(0, NavigableString(title))
-        new_post_preview.append(h3)
+        h3 = new_post_link.new_tag('h3', class_='post-subtitle')
+        h3.insert(0, NavigableString(sub_title))
+        new_post_link.append(h3)
         # P (small)
-        p = new_post_preview.new_tag('small',  class_='post-meta')
+        p = new_post_link.new_tag('small',  class_='post-meta')
         p.insert(0, NavigableString(f'Publicado por Joana Araújo Cardoso {datetime.today()}'))
-        new_post_preview.append(p)
+        new_post_link.append(p)
         # HR
-        p = new_post_preview.new_tag('hr')
-        new_post_preview.append(p)
+        p = new_post_link.new_tag('hr')
+        new_post_link.append(p)
         
         index.make_new_soup(index.soup.prettify())
         index.overwrite_html_file()
