@@ -30,10 +30,11 @@ with st.form("page_form"):
     submitted = st.form_submit_button("Submit")
     
     if submitted:
-        print("Copying images to publication directory")
+        
         if images:
             for img in images:                                                                                                                                                                                                       
-                try:                                                                                                                                                                                                                         
+                try:   
+                    print("Copying images to publication directory")                                                                                                                                                                                                                     
                     # Get the file extension (e.g., 'png' from 'image.png')                                                                                                                                                                  
                     file_extension = os.path.splitext(img.name)[1]
                     file_name      = Path(os.path.splitext(img.name)[0]).name
@@ -64,13 +65,18 @@ with st.form("page_form"):
         # Get first post-preview format 
         post_preview = reference_index.find('div', id='post-preview')
         new_post_preview = index.soup.new_tag('div', id='post-preview')
+        post_preview.append(new_post_preview)
+        # Here we are creating a new div
         h2 = new_post_preview.new_tag('h2', class_='post-title')
         h2.insert(0, NavigableString(title))
+        new_post_preview.append(h2)
         h3 = new_post_preview.new_tag('h3', class_='post-subtitle')
         h3.insert(0, NavigableString(title))
+        new_post_preview.append(h3)
         p = new_post_preview.new_tag('p',  class_='post-meta')
         p.insert(0, NavigableString(f'Publicado por Joana Araújo Cardoso {datetime.today()}'))
-        index.make_new_soup(index.soup)
+        new_post_preview.append(p)
+        index.make_new_soup(index.soup.prettify())
         index.overwrite_html_file()
         
 
