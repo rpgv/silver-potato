@@ -112,6 +112,9 @@ with st.form("page_form"):
         new_post_link = post_preview.new_tag('a', href=new_post_path)
         post_preivew_div.append(new_post_link)
         # Here we are creating a new div
+        # HR - separator
+        p = new_post_link.new_tag('hr')
+        new_post_link.append(p)
         # H2
         h2 = new_post_link.new_tag('h2', class_='post-title')
         h2.insert(0, NavigableString(title))
@@ -123,9 +126,6 @@ with st.form("page_form"):
         # P (small)
         p = new_post_link.new_tag('small',  class_='post-meta')
         p.insert(0, NavigableString(f'Publicado por Joana Araújo Cardoso {datetime.today()}'))
-        new_post_link.append(p)
-        # HR
-        p = new_post_link.new_tag('hr')
         new_post_link.append(p)
         
         index.make_new_soup(index.soup.prettify())
