@@ -9,6 +9,28 @@ SAVE_DIRECTORY = "Images"
 BANNER_DIRECTORY = "img"
 
 st.title("Silver-Potato Post editor")
+sample = '''
+# This is how you create a header
+## This creates a subheader
+Bullet points: 
+    * Are created like this
+And checklists:
+    [] Like this
+If you want something in *bold* or _italic_ ...
+Or even ~striken~
+When you are quoting someone: 
+> Put their quote like this...
+
+This is the general gist!
+'''
+
+
+with st.sidebar:
+    st.text('The post content section uses markdown')
+    st.divider()
+    st.info("Here's a simple cheat sheet:")
+    st.text(sample)
+    st.divider()
 
 with st.form("page_form"):
 
