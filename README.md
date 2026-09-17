@@ -1,6 +1,11 @@
-# silver-potato
-A sample blog based on the https://github.com/learning-zone/website-templates repo
+# Miracle Work 
 
+Welcome, 
 
-More importantly a simple html parser to allow easy publication of posts on github pages. 
-Internet the old way I suppose. 
+This is a place where I dump my ideas, thoughts and projects. 
+
+A place for you to 'zoom back' from day-to-day weight, and take your time to smell the flowers. 
+
+Here the theme is *culture appreciation*. 
+
+If you wish to contact me: https://dmf-1.github.io/MiracleWork/contact.html
