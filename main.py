@@ -1,5 +1,6 @@
 import streamlit as st
-from parser import * 
+from parser import Parser
+from helper import Helper
 import os       
 from pathlib import Path
 from bs4 import NavigableString      
@@ -11,6 +12,7 @@ now = datetime.now()
 date_ = now.strftime("%Y-%m-%d")
 
 st.title("Silver-Postato")
+
 sample = [
     '# This is how you create a header',
     '## Here is a subheader',
@@ -22,9 +24,12 @@ sample = [
     '> And this is how you quote someone!'    
 ]
 
+# Create helper object - check credentials
+
 
 with st.sidebar:
-    st.info("Here's a simple markdown cheat sheet:")
+    
+    st.markdown("### Here's a simple markdown cheat sheet:")
     for s in sample:
         st.text(s)
         st.markdown(s)
@@ -86,7 +91,6 @@ with st.form("page_form"):
             print('Updated banner and title')
             st.info('Updated banner and title...')
             
-
             # Update index information 
             index = Parser('index.html', title, ['div', 'parent-post-preview'], ['div', 'child'])
             index.load_original()

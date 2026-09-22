@@ -1,0 +1,43 @@
+import subprocess
+import os
+import json
+
+SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
+
+class Helper:     
+    def __init__(self, fname = '.credentials.json', path = SCRIPT_PATH):
+        self.fname = fname
+        self.path = path
+        pass
+    
+    def load_credentials(self):
+        if os.path.exists(self.fname):
+            with open(self.fname, 'r') as of:
+                self.credentials = json.load(of)
+        
+    def check_password_set(self):
+        return self.credentials['is_password_set']
+    
+    def toggle_password_set(self):
+        self.credentials["is_password_set"] = self.credentials["is_password_set"] == True
+        with open(self.fname, 'w') as op:
+            json.dump(self.credentials, op)
+    
+    def git_pull(self):
+        result = subprocess.run(["git", "pull"], cwd=self.path, capture_output=True, text=True)
+        return result.stdout
+    
+    def git_add(self):
+        result = subprocess.run(["git", "add", "."], cwd=self.path, capture_output=True, text=True)
+        return result.stdout
+    
+    def git_commit(self):
+        result = subprocess.run(["git", "commit", "-m", "'Auto commit'"], cwd=self.path, capture_output=True, text=True)
+        return result.stdout
+    
+    def git_push(self):
+        result = subprocess.run(["git", "push"], cwd=self.path, capture_output=True, text=True)
+        return result.stdout
+
+
+    

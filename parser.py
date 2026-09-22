@@ -143,5 +143,6 @@ class Parser:
         duplicated_sub_title = len(sub_titles) > 0
         
         return duplicated_title and duplicated_sub_title
+
         
         
