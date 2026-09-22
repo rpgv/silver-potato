@@ -24,17 +24,29 @@ sample = [
     '> And this is how you quote someone!'    
 ]
 
-# Create helper object - check credentials
-
-
 with st.sidebar:
-    
     st.markdown("### Here's a simple markdown cheat sheet:")
     for s in sample:
         st.text(s)
         st.markdown(s)
         st.divider()
 
+# Create helper object - check credentials
+helper = Helper()
+helper.load_credentials()
+is_pwd_set = helper.is_password_set() # It's declared by user - but describes if git is authenticated
+if not is_pwd_set:
+    warning_message = f"""
+    Attention ⚠️ - streamlit assumes that you do not have git authenticated.\n
+    This means that you currently can't post.\n
+    If you think this is a mistake (i.e. have recently posted) toggle the authentication button.
+    """
+    st.warning(warning_message)
+    set_pwd = st.button('I confirm that GIT is authenticated in this computer', type='secondary')
+    if set_pwd:
+        helper.toggle_password_set()
+        st.rerun()
+        
 
 with st.form("page_form"):
 

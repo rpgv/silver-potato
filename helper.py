@@ -15,11 +15,11 @@ class Helper:
             with open(self.fname, 'r') as of:
                 self.credentials = json.load(of)
         
-    def check_password_set(self):
+    def is_password_set(self):
         return self.credentials['is_password_set']
     
     def toggle_password_set(self):
-        self.credentials["is_password_set"] = self.credentials["is_password_set"] == True
+        self.credentials["is_password_set"] = not self.credentials["is_password_set"] == True
         with open(self.fname, 'w') as op:
             json.dump(self.credentials, op)
     
