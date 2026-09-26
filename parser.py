@@ -35,7 +35,6 @@ class Parser:
     def make_new_soup(self, content, parse=False):
         if parse:
             md = MarkdownIt("gfm-like", {"maxNesting": 10})
-            content = self.convert_images(content)
             content = md.render(content)
         self.n_soup = bs(content, "html5lib")
 
@@ -105,7 +104,7 @@ class Parser:
     def create_new_post(self, post_content):
         """
         Encapsulates post creation to simplify code
-            """
+        """
         self.load_original()
         self.make_new_soup(post_content, True)# True -> we want to parse from MD to HTML 
         self.make_family(True) # True -> we want to create a new file
@@ -118,13 +117,10 @@ class Parser:
             'h2':['subheading', sub_title],
             'small':['meta', date_]
         }
-        # Load new post reference html
-        self.load_original()
 
         # Iteratively update fields
         for k, v in fields_to_change.items():
             post_heading = self.soup.find(k, class_=v[0])
-            print('V1: ', v[0], v[1])
             post_heading.string = v[1]
         
         # Update background banner
@@ -143,6 +139,14 @@ class Parser:
         duplicated_sub_title = len(sub_titles) > 0
         
         return duplicated_title and duplicated_sub_title
+    
+    def edit_page_contents(self, content, tag, class_):
+        """
+        Encapsulates page editing code
+        """
+        post_heading = self.soup.find(tag, class_=class_)
+        print('Field changed', tag, content)
+        post_heading.string = content
 
         
         

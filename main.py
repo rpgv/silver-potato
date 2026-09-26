@@ -46,8 +46,44 @@ if not is_pwd_set:
     if set_pwd:
         helper.toggle_password_set()
         st.rerun()
-        
 
+@st.dialog('About me')  
+def about_me():
+    with st.form('about_page_form'):
+        title = st.text_input("Header title for your introduction to the world")
+        sub_title = st.text_input("A subtitle, message (or blank)")
+        content = st.text_area("Tell us about yorself")
+        # Every form must have a submit button.
+        submitted = st.form_submit_button("Submit")
+        if submitted:
+            parser = Parser('about.html', title)
+            parser.load_original()
+            if title: 
+                parser.edit_page_contents(title, 'h1', 'h1') 
+            else: 
+                parser.edit_page_contents('', 'h1', 'h1')
+            if sub_title: 
+                parser.edit_page_contents(sub_title, 'span', 'subheading') 
+            else: 
+                parser.edit_page_contents('', 'span', 'subheading')
+            if content: 
+                parser.edit_page_contents(content, 'p', 'about_me_content') 
+            else: 
+                parser.edit_page_contents('', 'p', 'about_me_content')
+            parser.overwrite_html_file()
+            st.rerun()
+
+# Section to edit other page contents
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    if st.button('Edit "About me" page'):
+        about_me()
+
+with col3:
+    if st.button('Edit "Contact" page'):
+        about_me()
+    
 with st.form("page_form"):
 
     # Publication header
@@ -97,8 +133,9 @@ with st.form("page_form"):
             st.info('Created new post ...')
             # Update banner, title, subtitle, and date on post
             new_post_update_title = Parser(new_post.path, title, ['div', 'parent-post-preview'], ['div', 'child'])
+            new_post_update_title.load_original()
             new_post_update_title.update_new_post_contents(banner_path, title, sub_title, date_)
-            new_post_update_title.make_new_soup(new_post.soup.prettify())
+            new_post_update_title.make_new_soup(new_post.soup.prettify()) # I think i can remove this line check later 
             new_post_update_title.overwrite_html_file()
             print('Updated banner and title')
             st.info('Updated banner and title...')
