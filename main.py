@@ -89,13 +89,13 @@ def image_uploader():
         for i in images:
             save_image(i)
             st.text(f'![publication_image](img/{i.name})')
-    if st.button('Upload'):
+    st.text('Copy the links above in the sections in which you wish to add an image')
+    if st.button('Upload images'):
             helper.git_add()
             helper.git_commit()
             helper.git_push()
             st.rerun()
 
-    st.text('Copy the links above in the sections in which you wish to add an image')
 
 
 def save_image(image):
