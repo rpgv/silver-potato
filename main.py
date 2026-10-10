@@ -130,12 +130,14 @@ def generic_form(page):
         parser = Parser(f'{page}.html', 'Title')
         parser.load_html()
         editable_fields = parser.find_editable_fields(type='editable')
+        n = 0
         if editable_fields:
             for i in editable_fields:
                 if i.string:
-                    i.string = st.text_area(tag_to_label[i.name], value = i.string.strip(), key=f"{i.string.strip()}_{random.randint(0,500)}", placeholder=i.string, height='content')
+                    i.string = st.text_area(tag_to_label[i.name], value = i.string.strip(), key=f"id_{page}_{n}", placeholder=i.string, height='content')
                 else:
-                    i['style'] = "" if st.checkbox('Hide divider', key=f"id_{random.randint(0,1000)}") else "visibility:hidden"
+                    i['style'] = "" if st.checkbox('Hide divider', key=f"id_{page}_checkbox_{n}") else "visibility:hidden"
+                n += 1
         save = st.form_submit_button('Save')
         if save:
             parser.overwrite_html_file()
@@ -200,9 +202,9 @@ def post_page_form():
 
                 # Replace index
                 st.info(f"Story saved successfully")
-                helper.git_add()
-                helper.git_commit()
-                helper.git_push()
+                #helper.git_add()
+                #helper.git_commit()
+                #helper.git_push()
                 st.info(f"✅ Site updated successfully")
             else:
                 st.error('Please fill all fields to submit')
