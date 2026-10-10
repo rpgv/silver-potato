@@ -132,7 +132,7 @@ def generic_form(page):
         editable_fields = parser.find_editable_fields(type='editable')
         if editable_fields:
             for i in editable_fields:
-                checkbox = st.checkbox('Hide block', key=f'{i.name}.{random.randint(0,500)}'):
+                checkbox = st.checkbox('Hide block', key=f'{i.name}.{random.randint(0,500)}')
                 if checkbox:
                     style="visibility:hidden"
                 else:
