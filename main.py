@@ -4,7 +4,8 @@ from helper import Helper
 import os       
 from pathlib import Path
 from bs4 import NavigableString      
-from datetime import datetime                                                                                                                                                                                        
+from datetime import datetime  
+import random                                                                                                                                                                                      
                                                                                                                                                                     
 SAVE_DIRECTORY = "Images"
 BANNER_DIRECTORY = "img"
@@ -131,6 +132,12 @@ def generic_form(page):
         editable_fields = parser.find_editable_fields(type='editable')
         if editable_fields:
             for i in editable_fields:
+                checkbox = st.checkbox('Hide block', key=f'{i.name}.{random.randint(0,500)}'):
+                if checkbox:
+                    style="visibility:hidden"
+                else:
+                    style=""
+                i['style'] = style
                 i.string = st.text_area(tag_to_label[i.name], value = i.string.strip(), placeholder=i.string, height='content')
         save = st.form_submit_button('Save')
         if save: 
