@@ -136,7 +136,7 @@ def generic_form(page):
                 if i.string:
                     i.string = st.text_area(tag_to_label[i.name], value = i.string.strip(), key=f"id_{page}_{n}", placeholder=i.string, height='content')
                 else:
-                    i['style'] = "" if st.checkbox('Hide divider', key=f"id_{page}_checkbox_{n}") else "visibility:hidden"
+                    i['style'] = "visibility:hidden" if st.checkbox('Hide divider', key=f"id_{page}_checkbox_{n}") else ""
                 n += 1
         save = st.form_submit_button('Save')
         if save:
