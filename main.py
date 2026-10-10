@@ -132,19 +132,12 @@ def generic_form(page):
         editable_fields = parser.find_editable_fields(type='editable')
         if editable_fields:
             for i in editable_fields:
-                if i['style']:
-                    hidden = True if i['style'] == "visibility:hidden" else False;
+                if i.string:
+                    i.string = st.text_area(tag_to_label[i.name], value = i.string.strip(), key=f"{i.string.strip()}_{random.randint(0,500)}", placeholder=i.string, height='content')
                 else:
-                    style=""
-                    i['style'] = style
-                hide = st.button('Hide block', value = hidden ,key=f'{i.name}.{random.randint(0,500)}', type='tertiary')
-                if hide:
-                    style="visibility:hidden"
-                    print('Hidden')
-                i['style'] = style
-                i.string = st.text_area(tag_to_label[i.name], value = i.string.strip(), placeholder=i.string, height='content')
+                    i['style'] = "" if st.checkbox('Hide divider', key=f"id_{random.randint(0,1000)}") else "visibility:hidden"
         save = st.form_submit_button('Save')
-        if save: 
+        if save:
             parser.overwrite_html_file()
             st.rerun()
 
@@ -200,10 +193,10 @@ def post_page_form():
                 # Check if is duplicated or not
                 if index.check_index(title, sub_title):
                     index.duplicate_post(title, sub_title, PUBLISHER_NAME, date_)
-                    index.overwrite_html_file()
                     st.info('Updated home page to contain new post...')
                 else:
                     st.info('Home page not updated as it was a duplicated / edit post')
+                index.overwrite_html_file()
 
                 # Replace index
                 st.info(f"Story saved successfully")
