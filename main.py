@@ -90,7 +90,7 @@ def image_uploader():
             save_image(i)
             st.text(f'![publication_image](img/{i.name})')
     st.text('Copy the links above in the sections in which you wish to add an image')
-    if st.button('Upload images'):
+    if st.button('Upload images', type='primary'):
             helper.git_add()
             helper.git_commit()
             helper.git_push()
