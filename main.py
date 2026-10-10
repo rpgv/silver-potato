@@ -132,8 +132,12 @@ def generic_form(page):
         editable_fields = parser.find_editable_fields(type='editable')
         if editable_fields:
             for i in editable_fields:
-                hide = st.button('Hide block', key=f'{i.name}.{random.randint(0,500)}', type='tertiary')
-                style=""
+                if i['style']:
+                    hidden = True if i['style'] == "visibility:hidden" else False;
+                else:
+                    style=""
+                    i['style'] = style
+                hide = st.button('Hide block', value = hidden ,key=f'{i.name}.{random.randint(0,500)}', type='tertiary')
                 if hide:
                     style="visibility:hidden"
                     print('Hidden')
