@@ -39,7 +39,7 @@ class Helper:
 
     def git_discard(self):
         result = subprocess.run(["git", "restore", "--staged", "."], cwd=self.path, capture_output=True, text=True)
-        result = subprocess.run(["git", "clean", "."], cwd=self.path, capture_output=True, text=True)
+        result = subprocess.run(["git", "clean", "-f", "."], cwd=self.path, capture_output=True, text=True)
         result = subprocess.run(["git", "restore", "."], cwd=self.path, capture_output=True, text=True)
         return result.stdout
     
