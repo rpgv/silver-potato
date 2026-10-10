@@ -77,9 +77,6 @@ def settings():
     st.text(f"Modified files - not uploaded:")
     for r in results:
         st.markdown(f"* {r}")
-    
-    
- 
 
 
 def image_uploader():
