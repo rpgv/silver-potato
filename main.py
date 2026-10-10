@@ -55,24 +55,27 @@ sample = [
 ]
 
 def settings():
-    if st.button('Clear changes', type='primary'):
-        helper.git_discard()
-        st.rerun()
-
-    elif st.button('Update code'):
-        helper.git_pull
-        st.rerun()
-    
-    elif st.button('Force upload'):
+    if st.button('Upload'):
         helper.git_add()
         helper.git_commit()
         helper.git_push()
+        st.rerun()
+    
+    elif st.button('Clear'):
+        helper.git_discard()
         st.rerun()
     
     elif st.button('Change user name'):
         helper.load_credentials()
         helper.toggle_password_set()
         st.rerun()
+    st.divider()
+    results = helper.git_status().split("\n")[:-1]
+    st.text(f"Modified files - not uploaded:")
+    for r in results:
+        st.markdown(f"* {r}")
+    
+    
  
 
 
@@ -96,7 +99,7 @@ def save_image(image):
         file_bytes     = image.read()
         # Write the bytes to the specified local path                                                                                                                                                                            
         with open(image_path, "wb") as of:                                                                                                                                                                                         
-            of.write(file_bytes) 
+            of.write(file_bytes)
         return image_path
 
     except Exception as e:                                                                                                                                                                                                       
