@@ -19,9 +19,9 @@ uv run streamlit run main.py
   * Loading images through the image loader in the *side-bar*
   * Manually uploading tem to github -> then updating code on local run
   * Images should follow this name structure:
-      * 'about-bg.png'  - to replace the About me background image
-      * 'contact-bg.png'  - to replace the Contact background image
-      * 'home-bg.png'  - to replace the Home background image
+      * 'about-bg.jpg'  - to replace the About me background image
+      * 'contact-bg.jpg'  - to replace the Contact background image
+      * 'home-bg.jpg'  - to replace the Home background image
    
 * To change the content of each page you can navigate the tabs in the main page
 
